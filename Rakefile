@@ -4,6 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'rake/testtask'
 require 'level1/main'
 require 'level2/main'
+require 'level3/main'
 
 Rake::TestTask.new do |t|
   t.libs << "test"
@@ -23,5 +24,17 @@ end
 desc "Level 2"
 task :level2 do
   p "Running Level 2..."
+  p "Desired output:"
+  p JSON.parse(File.read("lib/level2/output.json")).to_s
+  p "Actual output:"
   p Level2.new.to_json
+end
+
+desc "Level 3"
+task :level3 do
+  p "Running Level 3..."
+  p "Desired output:"
+  p JSON.parse(File.read("lib/level3/output.json")).to_s
+  p "Actual output:"
+  p Level3.new.to_json
 end
