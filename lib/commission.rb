@@ -1,6 +1,5 @@
 class Commission
   attr_accessor :rental_price, :days, :commission_amount
-  attr_accessor :commission_amount
 
   def initialize(rental_price, days)
     @rental_price = rental_price

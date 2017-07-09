@@ -6,11 +6,7 @@ class RentalCollection
 
   def initialize(rentals)
     @collection = rentals.map do |rental|
-      Rental.new id: rental["id"],
-        car_id: rental["car_id"],
-        start_date: rental["start_date"],
-        end_date: rental["end_date"],
-        distance: rental["distance"]
+      Rental.new symbolize_keys(rental)
     end
   end
 end

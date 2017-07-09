@@ -24,4 +24,12 @@ class RentalCalculatorTest < MiniTest::Test
   def test_total_price
     assert_equal 27800, @calculator.total_price
   end
+
+  def test_deductible_reduction
+    @rental.options[:deductible_reduction] = true
+    calc = RentalCalculator.new(rental: @rental, car: @car)
+    hash = { deductible_reduction: 4800 }
+
+    assert_equal hash, calc.options
+  end
 end

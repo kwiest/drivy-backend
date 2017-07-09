@@ -7,9 +7,7 @@ class CarCollection
 
   def initialize(cars)
     @collection = cars.map do |car|
-      Car.new id: car["id"],
-        price_per_day: car["price_per_day"],
-        price_per_km: car["price_per_km"]
+      Car.new symbolize_keys(car)
     end
   end
 end

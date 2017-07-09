@@ -21,4 +21,20 @@ class RentalCalculator
   def distance_price
     rental.distance * car.price_per_km
   end
+
+  def options
+    rental.options.inject({}) do |opts,(k,v)|
+      opts[k] = v ? optional_charges[k] : 0
+      opts
+    end
+  end
+
+
+  private
+
+  def optional_charges
+    {
+      deductible_reduction: (rental.time * 400)
+    }
+  end
 end
