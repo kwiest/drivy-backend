@@ -1,3 +1,5 @@
+require 'time_discount'
+
 class RentalCalculator
   attr_accessor :car, :rental
 
@@ -11,7 +13,9 @@ class RentalCalculator
   end
 
   def time_price
-    rental.time * car.price_per_day
+    (1..rental.time).inject(0) do |total_price, day|
+      total_price += TimeDiscount.new(car.price_per_day, day).apply
+    end
   end
 
   def distance_price
