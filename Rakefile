@@ -6,6 +6,7 @@ require 'level1/main'
 require 'level2/main'
 require 'level3/main'
 require 'level4/main'
+require 'level5/main'
 
 Rake::TestTask.new do |t|
   t.libs << "test"
@@ -47,4 +48,13 @@ task :level4 do
   p JSON.parse(File.read("lib/level4/output.json")).to_s
   p "Actual output:"
   p Level4.new.to_json
+end
+
+desc "Level 5"
+task :level5 do
+  p "Running Level 5..."
+  p "Desired output:"
+  p JSON.parse(File.read("lib/level5/output.json")).to_s
+  p "Actual output:"
+  p Level5.new.to_json
 end
