@@ -1,14 +1,11 @@
-require 'minitest/autorun'
+require 'actions/action_test'
 require 'actions/drivy'
 
-class DrivyActionTest < MiniTest::Test
+class DrivyActionTest < ActionTest
   # drivy receives its part of the commission, plus the deductible reduction
 
   def setup
-    rental = OpenStruct.new total_price: 3000, options: { deductible_reduction: 400 }
-    commission = OpenStruct.new drivy_fee: 350
-
-    @action = DrivyAction.new rental, commission
+    @action = DrivyAction.create calculator_mock, commission_mock
   end
 
   def test_who
@@ -24,9 +21,8 @@ class DrivyActionTest < MiniTest::Test
   end
 
   def test_amount_without_deductible_reduction
-    rental = OpenStruct.new total_price: 3000, options: { deductible_reduction: 0 }
-    commission = OpenStruct.new drivy_fee: 350
-    action = DrivyAction.new rental, commission
+    calc = OpenStruct.new total_price: 3000, options: { deductible_reduction: 0 }
+    action = DrivyAction.create calc, commission_mock
 
     assert_equal 350, action.amount
   end

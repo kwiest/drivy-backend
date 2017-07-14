@@ -1,15 +1,8 @@
 require 'action'
 
 class OwnerAction < Action
-  def who
-    :owner
-  end
-
-  def type
-    :credit
-  end
-
-  def amount
-    calculator.total_price - commission.commission_amount
+  def self.create(calculator, commission)
+    amount = calculator.total_price - commission.amount
+    new(:owner, :credit, amount)
   end
 end

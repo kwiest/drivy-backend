@@ -1,14 +1,11 @@
-require 'minitest/autorun'
+require 'actions/action_test'
 require 'actions/driver'
 
-class DriverActionTest < MiniTest::Test
+class DriverActionTest < ActionTest
   # the driver must pay the rental price and the (optional) deductible reduction
 
   def setup
-    rental = OpenStruct.new total_price: 3000, options: { deductible_reduction: 400 }
-    commission = OpenStruct.new
-
-    @action = DriverAction.new rental, commission
+    @action = DriverAction.create calculator_mock, commission_mock
   end
 
   def test_who
@@ -24,9 +21,8 @@ class DriverActionTest < MiniTest::Test
   end
 
   def test_amount_without_deductible_reduction
-    rental = OpenStruct.new total_price: 3000, options: { deductible_reduction: 0 }
-    commission = OpenStruct.new
-    action = DriverAction.new rental, commission
+    calc = OpenStruct.new total_price: 3000, options: { deductible_reduction: 0 }
+    action = DriverAction.create calc, commission_mock
 
     assert_equal 3000, action.amount
   end

@@ -10,7 +10,7 @@ class RentalCollectionTest < MiniTest::Test
     @collection = RentalCollection.new data
   end
 
-  def test_members_are_cars
+  def test_members_are_rentals
     assert_instance_of Rental, @collection.first
   end
 

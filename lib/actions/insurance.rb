@@ -1,15 +1,7 @@
 require 'action'
 
 class InsuranceAction < Action
-  def who
-    :insurance
-  end
-
-  def type
-    :credit
-  end
-
-  def amount
-    commission.insurance_fee
+  def self.create(calculator, commission)
+    new(:insurance, :credit, commission.insurance_fee)
   end
 end

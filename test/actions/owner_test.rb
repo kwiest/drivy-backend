@@ -1,14 +1,11 @@
-require 'minitest/autorun'
+require 'actions/action_test'
 require 'actions/owner'
 
-class OwnerActionTest < MiniTest::Test
+class OwnerActionTest < ActionTest
   # the owner receives the rental price minus the commission
 
   def setup
-    rental = OpenStruct.new total_price: 3000, options: { deductible_reduction: 400 }
-    commission = OpenStruct.new commission_amount: 900
-
-    @action = OwnerAction.new rental, commission
+    @action = OwnerAction.create calculator_mock, commission_mock
   end
 
   def test_who

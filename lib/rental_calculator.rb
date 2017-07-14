@@ -23,9 +23,8 @@ class RentalCalculator
   end
 
   def options
-    rental.options.inject({}) do |opts,(k,v)|
+    rental.options.each_with_object({}) do |(k,v),opts|
       opts[k] = v ? optional_charges[k] : 0
-      opts
     end
   end
 

@@ -1,15 +1,7 @@
 require 'action'
 
 class AssistanceAction < Action
-  def who
-    :assistance
-  end
-
-  def type
-    :credit
-  end
-
-  def amount
-    commission.assistance_fee
+  def self.create(calculator, commission)
+    new(:assistance, :credit, commission.assistance_fee)
   end
 end

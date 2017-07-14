@@ -1,14 +1,10 @@
 require 'json'
 
+require 'action_aggregator'
 require 'car_collection'
+require 'commission'
 require 'rental_collection'
 require 'rental_calculator'
-require 'commission'
-require 'actions/assistance'
-require 'actions/driver'
-require 'actions/drivy'
-require 'actions/insurance'
-require 'actions/owner'
 
 class Level5
   attr_accessor :cars, :rentals
@@ -20,23 +16,23 @@ class Level5
   end
 
   def to_json
-    output = { "rentals" => [] }
-    @rentals.each do |rental|
-      car = @cars.find_by_id(rental.car_id)
-      calculator = RentalCalculator.new(rental: rental, car: car)
-      commission = Commission.new(calculator.total_price, rental.time)
+    { "rentals" => rentals_json }.to_json
+  end
 
-      hash = { id: rental.id,
-        actions: [
-          DriverAction.new(calculator, commission).to_h,
-          OwnerAction.new(calculator, commission).to_h,
-          InsuranceAction.new(calculator, commission).to_h,
-          AssistanceAction.new(calculator, commission).to_h,
-          DrivyAction.new(calculator, commission).to_h
-        ]
+
+  private
+
+  def rentals_json
+    rentals.map do |rental|
+      car = cars.find_by_id rental.car_id
+      calculator = RentalCalculator.new rental: rental, car: car
+      commission = Commission.new calculator.total_price, rental.time
+      actions = ActionAggregator.new(calculator, commission).to_a
+
+      {
+        id: rental.id,
+        actions: actions.map(&:to_h)
       }
-      output["rentals"] << hash
     end
-    output.to_json
   end
 end

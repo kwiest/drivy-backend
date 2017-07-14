@@ -1,14 +1,11 @@
-require 'minitest/autorun'
+require 'actions/action_test'
 require 'actions/insurance'
 
-class InsuranceActionTest < MiniTest::Test
+class InsuranceActionTest < ActionTest
   # the insurance receives its part of the commission
 
   def setup
-    rental = OpenStruct.new total_price: 3000, options: { deductible_reduction: 400 }
-    commission = OpenStruct.new insurance_fee: 450
-
-    @action = InsuranceAction.new rental, commission
+    @action = InsuranceAction.create calculator_mock, commission_mock
   end
 
   def test_who
